@@ -29,7 +29,23 @@ jobs:
           --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
           --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" \
           --region us-east-1
-    - destroy_environment
+    # - destroy_environment
+  configure_infrastructure: 
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["59:1b:d6:07:22:3e:9f:65:67:19:84:c9:46:e3:10:22"] # You can get this ID in the section where you registered the SSH Key
+      - run:
+          name: Install dependencies
+          command: |
+            # install the dependencies needed for your playbook
+            apk add --update ansible 
+      - run:
+          name: Configure server
+          command: |
+            ansible-playbook -i inventory.txt main4.yml
 # Sequential workflow
 workflows:
   myWorkflow:  # Name the workflow
