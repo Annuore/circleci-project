@@ -41,7 +41,10 @@ jobs:
           name: Install dependencies
           command: |
             # install the dependencies needed for your playbook
-            apk add --update ansible 
+            apt update 
+            apt install software-properties-common
+            add-apt-repository --yes --update ppa:ansible/ansible
+            apt install ansible
       - run:
           name: Configure server
           command: |
