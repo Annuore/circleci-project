@@ -3,6 +3,7 @@ Parameters:
   UdaBucketName:
     Description: Existing Bucket name
     Type: String
+    Value: myUdaBucket
 
 Resources:
   UdaWebsiteBucket:
