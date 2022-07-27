@@ -1,0 +1,26 @@
+Parameters:
+  # New Bucket name
+  UdaBucketName:
+    Description: Existing Bucket name
+    Type: String
+
+Resources:
+  UdaWebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${UdaBucketName}"
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+  UdaWebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref 'UdaWebsiteBucket'
+      PolicyDocument:
+        Statement:
+        - Sid: PublicReadForGetBucketObjects
+          Effect: Allow
+          Principal: '*'
+          Action: s3:GetObject
+          Resource: !Join ['', ['arn:aws:s3:::', !Ref 'UdaWebsiteBucket', /*]]
